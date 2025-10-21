@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OTP Verification</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      margin: 0;
+      padding: 0;
+      color: #333333;
+    }
+    .container {
+      background-color: #ffffff;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+    h2 {
+      color: #1a1a1a;
+      margin-bottom: 20px;
+      font-weight: 700;
+      font-size: 28px;
+    }
+    p {
+      font-size: 17px;
+      color: #555555;
+      line-height: 1.6;
+      margin: 16px 0;
+    }
+    .otp-code {
+      margin: 30px auto;
+      padding: 18px 50px;
+      font-size: 32px;
+      font-weight: 900;
+      color: #ffffff;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      border-radius: 10px;
+      letter-spacing: 8px;
+      width: fit-content;
+      box-shadow: 0 4px 12px rgba(38, 61, 183, 0.5);
+      user-select: all;
+    }
+    .footer {
+      font-size: 14px;
+      color: #999999;
+      margin-top: 40px;
+      text-align: center;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Hello <%= name %>,</h2>
+    <p>We received a request to verify your identity. Please use the following OTP code to complete the verification process:</p>
+    <div class="otp-code"><%= otp %></div>
+    <p>This code is valid for <strong>3 minutes</strong>. If you didn’t request this, you can safely ignore this email.</p>
+    <p>Thank you,<br />The LoopRide Support Team</p>
+    <div class="footer">
+      &copy; <%= new Date().getFullYear() %> LoopRide. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>
