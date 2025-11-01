@@ -43,7 +43,7 @@ app.use("/api/v1", router);
 // Health check route
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
-    message: "Welcome to the LoopRide System API ",
+    message: "Welcome to the GoWay System API ",
   });
 });
 
