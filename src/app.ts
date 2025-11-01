@@ -11,15 +11,23 @@ import notFound from "./app/middlewares/notFound";
 
 const app = express();
 
+// Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware setup
+// Trust proxy for secure cookies on Vercel
+app.set("trust proxy", 1);
+
+// Session config
 app.use(
   expressSession({
     secret: envVars.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: true,         // must be true on HTTPS (Vercel)
+      sameSite: "none",     // allow cross-site cookies
+    },
   })
 );
 
@@ -27,30 +35,41 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
-app.set("trust proxy", 1);
 
-// Security headers
+// CORS configuration
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://a6-ride-booking-frontend-gkzn.vercel.app",
+  "https://a6-ride-booking-frontend.vercel.app"
+];
+
 app.use(
   cors({
-    origin: "https://a6-ride-booking-frontend-gkzn.vercel.app",
+    origin: (origin, callback) => {
+      // allow requests with no origin (e.g., Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
     credentials: true,
   })
 );
 
-// Static file serving
+// API routes
 app.use("/api/v1", router);
 
-// Health check route
+// Health check
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
-    message: "Welcome to the GoWay System API ",
+    message: "Welcome to the GoWay System API",
   });
 });
 
-// Global error handler
+// Error handlers
 app.use(globalErrorHandler);
-
-// Not found handler
 app.use(notFound);
 
 export default app;
