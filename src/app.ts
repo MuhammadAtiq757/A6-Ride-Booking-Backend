@@ -32,7 +32,7 @@ app.set("trust proxy", 1);
 // Security headers
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://a6-ride-booking-frontend-gkzn.vercel.app",
     credentials: true,
   })
 );
